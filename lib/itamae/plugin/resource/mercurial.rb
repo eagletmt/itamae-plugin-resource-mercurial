@@ -9,10 +9,19 @@ module Itamae
         define_attribute :repository, type: String, required: true
         define_attribute :revision, type: String
 
-        def action_create(options)
+        def set_current_attributes
           ensure_hg_available
 
-          if run_specinfra(:check_file_is_directory, attributes.destination)
+          current.exist = run_specinfra(:check_file_is_directory, attributes.destination)
+          if current.exist
+            current.repository = run_command(['hg', '--cwd', attributes.destination, 'paths', 'default']).stdout.strip
+            current.revision = get_current_revision
+            attributes.revision = determine_target(attributes.revision)
+          end
+        end
+
+        def action_create(options)
+          if current.exist
             run_command(['hg', '--cwd', attributes.destination, 'pull', 'default'])
           else
             Logger.info "Cloning #{attributes.repository} into #{attributes.destination}"
@@ -21,7 +30,7 @@ module Itamae
           end
 
           target_revision = determine_target(attributes.revision)
-          current_revision = run_command(['hg', '--cwd', attributes.destination, 'identify', '--id']).stdout.chomp
+          current_revision = get_current_revision
 
           if current_revision != target_revision
             Logger.info "Updating revision from #{current_revision} to #{target_revision}"
@@ -45,6 +54,10 @@ module Itamae
           end
           cmd << '--id' << 'default'
           run_command(cmd).stdout.chomp
+        end
+
+        def get_current_revision
+          run_command(['hg', '--cwd', attributes.destination, 'identify', '--id']).stdout.chomp
         end
       end
     end
