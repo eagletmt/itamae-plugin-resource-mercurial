@@ -20,6 +20,17 @@ module Itamae
           end
         end
 
+        def show_differences
+          super
+
+          if current.exist
+            diff = run_command(['hg', '--cwd', attributes.destination, 'diff', '--rev', current.revision, '--rev', attributes.revision]).stdout
+            diff.each_line do |line|
+              Logger.info line.chomp
+            end
+          end
+        end
+
         def action_create(options)
           if current.exist
             run_command(['hg', '--cwd', attributes.destination, 'pull', 'default'])
