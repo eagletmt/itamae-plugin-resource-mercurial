@@ -10,6 +10,7 @@ module Itamae
         define_attribute :revision, type: String
 
         def set_current_attributes
+          super
           ensure_hg_available
 
           current.exist = run_specinfra(:check_file_is_directory, attributes.destination)
