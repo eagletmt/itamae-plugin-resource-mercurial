@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'itamae/plugin/resource/mercurial/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "itamae-plugin-resource-mercurial"
-  spec.version       = Itamae::Plugin::Resource::Mercurial::VERSION
+  spec.version       = '0.0.1'
   spec.authors       = ["Kohei Suzuki"]
   spec.email         = ["eagletmt@gmail.com"]
   spec.summary       = %q{TODO: Write a short summary. Required.}

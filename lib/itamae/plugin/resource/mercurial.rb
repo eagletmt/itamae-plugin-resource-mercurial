@@ -1,5 +1,3 @@
-require "itamae/plugin/resource/mercurial/version"
-
 module Itamae
   module Plugin
     module Resource
