@@ -18,6 +18,8 @@ module Itamae
             current.repository = run_command(['hg', '--cwd', attributes.destination, 'paths', 'default']).stdout.strip
             current.revision = get_current_revision
             attributes.revision = determine_target(attributes.revision)
+          else
+            Logger.info "Clone #{attributes.repository} into #{attributes.destination}"
           end
         end
 
@@ -36,7 +38,6 @@ module Itamae
           if current.exist
             run_command(['hg', '--cwd', attributes.destination, 'pull', 'default'])
           else
-            Logger.info "Cloning #{attributes.repository} into #{attributes.destination}"
             run_command(['hg', 'clone', attributes.repository, attributes.destination])
             updated!
           end
@@ -45,7 +46,6 @@ module Itamae
           current_revision = get_current_revision
 
           if current_revision != target_revision
-            Logger.info "Updating revision from #{current_revision} to #{target_revision}"
             run_command(['hg', '--cwd', attributes.destination, 'update', '--check', target_revision])
             updated!
           end
