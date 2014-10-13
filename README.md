@@ -1,6 +1,6 @@
 # Itamae::Plugin::Resource::Mercurial
 
-TODO: Write a gem description
+[itamae](https://github.com/ryotarai/itamae) resource plugin to clone [mercurial](http://mercurial.selenic.com/) repository.
 
 ## Installation
 
@@ -20,11 +20,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'itamae/plugin/resource/mercurial'
+
+mercurial '/usr/local/src/hg' do
+  repository 'http://selenic.com/hg'
+  revision 'stable'
+end
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/itamae-plugin-resource-mercurial/fork )
+1. Fork it ( https://github.com/eagletmt/itamae-plugin-resource-mercurial/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
